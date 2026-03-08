@@ -16,7 +16,7 @@ export default function Anchor({
             href={href}
             target={target}
             rel={target === "_blank" ? "noopener noreferrer" : undefined}
-            className={`text-[${target === "_blank" ? "#4ac776" : "#1aa74c"}] hover:underline`}
+            className={`text-[${target === "_blank" ? "#4ac776" : "#1aa74c"}] hover:underline cursor-pointer`}
         >
             {
                 target === "_blank" ? (

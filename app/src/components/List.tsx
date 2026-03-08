@@ -11,7 +11,7 @@ export default function List({ items, separator, className }: ListProps) {
         <ul className={className}>
             {items.map((item, index) => (
                 <React.Fragment key={index}>
-                    <li className="hover:text-[#1db954] cursor-pointer transition">
+                    <li>
                         {item}
                     </li>
 
