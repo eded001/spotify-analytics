@@ -1,5 +1,4 @@
 import Paragraph from "@/components/Paragraph";
-import Separator from "@/components/Separator";
 import Title from "@/components/Title";
 
 export default function NotFound() {
