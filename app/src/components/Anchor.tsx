@@ -11,12 +11,17 @@ export default function Anchor({
     href: string;
     target?: AnchorTarget;
 }) {
+    const linkColor =
+        target === "_blank"
+            ? "text-[#77d598]"
+            : "text-[#4ac776]";
+
     return (
         <Link
             href={href}
             target={target}
             rel={target === "_blank" ? "noopener noreferrer" : undefined}
-            className={`text-[${target === "_blank" ? "#4ac776" : "#1aa74c"}] hover:underline cursor-pointer`}
+            className={`${linkColor} hover:underline cursor-pointer`}
         >
             {
                 target === "_blank" ? (
