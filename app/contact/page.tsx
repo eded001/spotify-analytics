@@ -12,7 +12,7 @@ export default function Contact() {
             </Paragraph>
 
             <Paragraph>
-                Quer me contatar ou ver outros projetos? Envie um e-mail para <Anchor href="mailto:edgarams.profissional@gmail.com">edgarams.profissional@gmail.com</Anchor> e acesse meu <Anchor href="https://github.com/eded001" target="_blank">GitHub</Anchor>.
+                Quer me contatar ou ver outros projetos? Envie um e-mail para <Anchor href="mailto:edgarams.profissional@gmail.com" target="_blank">edgarams.profissional@gmail.com</Anchor> e acesse meu GitHub: <Anchor href="https://github.com/eded001" target="_blank">eded001</Anchor>.
             </Paragraph>
         </Article>
     );
