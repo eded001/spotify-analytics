@@ -5,8 +5,8 @@ import { BsSpotify } from "react-icons/bs";
 
 export default function Home() {
   const handleSpotifyLogin = () => {
-    const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-    const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
+    const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID ?? "";
+    const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI ?? "";
     const scope = [
       "user-read-email",
       "user-top-read",
