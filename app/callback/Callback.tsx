@@ -26,13 +26,23 @@ export default function Callback() {
             .then(res => res.json())
             .then(data => {
 
+                console.log("TOKEN RESPONSE:", data);
+
+                if (!data.access_token) {
+                    console.error("Token inválido:", data);
+                    return;
+                }
+
                 localStorage.setItem(
                     "spotify_access_token",
                     data.access_token
                 );
 
-                window.location.href = "/dashboard";
+                window.location.replace("/dashboard");
 
+            })
+            .catch(err => {
+                console.error("Erro ao obter token:", err);
             });
 
     }, [params]);
