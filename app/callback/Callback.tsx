@@ -7,15 +7,20 @@ import Paragraph from "@/components/Paragraph";
 import Title from "@/components/Title";
 
 export default function Callback() {
+
     const params = useSearchParams();
 
     useEffect(() => {
+
         const code = params.get("code");
 
         if (!code) return;
 
         fetch("/api/spotify/token", {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({ code })
         })
             .then(res => res.json())
@@ -27,6 +32,7 @@ export default function Callback() {
                 );
 
                 window.location.href = "/dashboard";
+
             });
 
     }, [params]);
