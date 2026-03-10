@@ -3,7 +3,7 @@ import List from "@/components/List";
 
 export default function Header() {
     return (
-        <header className="flex justify-center md:justify-between items-center bg-[#141010] p-5">
+        <header className="flex justify-center md:justify-between items-center bg-zinc-900 p-5">
             <h1 className="text-4xl font-bold text-[#1db954]">Spotify Analytics</h1>
 
             <nav className="hidden md:block">
