@@ -14,11 +14,11 @@ export async function POST(req: Request) {
     const body = new URLSearchParams({
         grant_type: "authorization_code",
         code,
-        redirect_uri: process.env.SPOTIFY_REDIRECT_URI!
+        redirect_uri: process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI!
     });
 
     const basic = Buffer.from(
-        `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+        `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET}`
     ).toString("base64");
 
     const res = await fetch(
