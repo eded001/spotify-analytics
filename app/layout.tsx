@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/content/Footer";
 import Header from "@/content/Header";
+import Providers from "./providers/provider";
 
 export const metadata: Metadata = {
   title: "Spotify Analytics",
@@ -14,16 +15,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body className="antialiased min-h-dvh bg-[#191414] flex flex-col">
-        <Header />
-
-        <main className="flex-1 flex justify-center">
-          {children}
-        </main>
-
-        <Footer />
-      </body>
-    </html>
+    <Providers>
+      <html lang="pt-br">
+        <body className="antialiased min-h-dvh bg-[#191414] flex flex-col">
+          <Header />
+          <main className="flex-1 flex justify-center">
+            {children}
+          </main>
+          <Footer />
+        </body>
+      </html>
+    </Providers>
   );
 }
