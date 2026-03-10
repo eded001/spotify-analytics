@@ -13,22 +13,20 @@ import {
 } from "@/lib/spotify";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { Play, PlayCircle } from "lucide-react";
+import { Play, Music2 } from "lucide-react";
 
-// ─── Shared sub-components ───────────────────────────────────────────────────
+// ─── Sub-components ──────────────────────────────────────────────────────────
 
-function SectionHeader({ title, count, label }: { title: string; count?: number; label?: string }) {
+function SectionHeader({ title }: { title: string }) {
     return (
-        <div className="flex items-baseline gap-4 mb-7">
-            <h2 className="text-3xl font-black uppercase tracking-wide text-white">{title}</h2>
-            <div className="flex-1 h-px bg-gradient-to-r from-white/[0.08] to-transparent" />
-            {count !== undefined && (
-                <span className="text-[11px] text-white/30 tracking-[2px] uppercase">
-                    {count} {label}
-                </span>
-            )}
-        </div>
+        <h2 className="text-xs font-medium text-neutral-500 uppercase tracking-widest mb-4">
+            {title}
+        </h2>
     );
+}
+
+function Divider() {
+    return <div className="border-t border-neutral-800/60 my-10" />;
 }
 
 function TrackRow({ name, artists, imageUrl, index }: {
@@ -38,26 +36,28 @@ function TrackRow({ name, artists, imageUrl, index }: {
     index: number;
 }) {
     return (
-        <div className="group relative flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/[0.04] transition-colors cursor-pointer">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-[#1DB954] rounded-full group-hover:h-[55%] transition-all duration-200" />
-            <span className="text-lg font-black text-white/15 w-6 text-right flex-shrink-0">{index + 1}</span>
-            <div className="rounded-md overflow-hidden flex-shrink-0 bg-white/5">
-                <Image src={imageUrl} width={44} height={44} alt={name} className="block" />
+        <div className="group flex items-center gap-4 py-2.5 cursor-pointer">
+            <span className="w-4 text-right text-xs text-neutral-600 flex-shrink-0 group-hover:hidden">
+                {index + 1}
+            </span>
+            <Play
+                size={12}
+                className="hidden group-hover:block flex-shrink-0 text-neutral-400 fill-neutral-400 ml-auto w-4"
+            />
+            <div className="rounded overflow-hidden flex-shrink-0 bg-neutral-800">
+                <Image src={imageUrl} width={40} height={40} alt={name} className="block" />
             </div>
             <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white/90 truncate">{name}</p>
-                <p className="text-xs text-white/35 font-light mt-0.5 truncate">{artists}</p>
+                <p className="text-sm text-neutral-200 truncate group-hover:text-white transition-colors">
+                    {name}
+                </p>
+                <p className="text-xs text-neutral-500 truncate mt-0.5">{artists}</p>
             </div>
-            <PlayCircle
-                className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-[#1DB954]"
-                size={18}
-                strokeWidth={1.5}
-            />
         </div>
     );
 }
 
-// ─── Main Dashboard ───────────────────────────────────────────────────────────
+// ─── Main ────────────────────────────────────────────────────────────────────
 
 export default function Dashboard() {
     const token =
@@ -79,20 +79,15 @@ export default function Dashboard() {
 
     const isLoading =
         !token ||
-        profileQuery.isLoading ||
-        artistsQuery.isLoading ||
-        recentQuery.isLoading ||
-        topTracksQuery.isLoading ||
-        playlistsQuery.isLoading ||
-        nowPlayingQuery.isLoading ||
-        followedQuery.isLoading;
+        [profileQuery, artistsQuery, recentQuery, topTracksQuery,
+            playlistsQuery, nowPlayingQuery, followedQuery].some(q => q.isLoading);
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#080808] flex items-center justify-center">
-                <div className="flex flex-col items-center gap-4">
-                    <div className="w-10 h-10 rounded-full border-2 border-[#1DB954] border-t-transparent animate-spin" />
-                    <p className="text-white/40 text-sm tracking-widest">Carregando sua música...</p>
+            <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+                <div className="flex items-center gap-3 text-neutral-500 text-sm">
+                    <div className="w-4 h-4 rounded-full border border-neutral-600 border-t-transparent animate-spin" />
+                    Carregando...
                 </div>
             </div>
         );
@@ -108,8 +103,8 @@ export default function Dashboard() {
 
     if (!profile || !artists || !recentTracks) {
         return (
-            <div className="min-h-screen bg-[#080808] flex items-center justify-center">
-                <p className="text-white/40 text-sm">Não foi possível carregar os dados.</p>
+            <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+                <p className="text-neutral-500 text-sm">Não foi possível carregar os dados.</p>
             </div>
         );
     }
@@ -120,123 +115,88 @@ export default function Dashboard() {
         : 0;
 
     return (
-        <div className="min-h-screen bg-[#080808] relative overflow-hidden">
+        <div className="min-h-screen bg-neutral-950 text-white">
+            <div className="max-w-3xl mx-auto px-8 py-14">
 
-            {/* Background glows */}
-            <div className="fixed -top-52 -left-52 w-[600px] h-[600px] rounded-full bg-[#1DB954]/10 blur-3xl pointer-events-none" />
-            <div className="fixed -bottom-52 -right-24 w-[500px] h-[500px] rounded-full bg-[#1DB954]/[0.06] blur-3xl pointer-events-none" />
-
-            <div className="relative z-10 max-w-5xl mx-auto px-10 py-16">
-
-                {/* Top label */}
-                <div className="flex items-center gap-3 mb-10">
-                    <span className="block w-6 h-px bg-[#1DB954]" />
-                    <span className="text-[#1DB954] text-[11px] tracking-[4px] font-medium uppercase">
-                        Seu Painel Musical
-                    </span>
-                </div>
-
-                {/* ── Profile ───────────────────────────────────────────── */}
-                <section className="flex items-end gap-7 mb-16 pb-10 border-b border-white/[0.06]">
-                    <div className="relative flex-shrink-0 w-24 h-24">
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#1DB954] via-[#0d8c40] to-[#1DB954] animate-spin [animation-duration:8s]" />
-                        <div className="absolute inset-[3px] rounded-full overflow-hidden bg-[#111]">
-                            <Image
-                                src={profile.images?.[0]?.url || "/default-avatar.png"}
-                                alt="profile"
-                                width={90}
-                                height={90}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
+                {/* ── Profile ────────────────────────────────────────── */}
+                <section className="flex items-center gap-5 mb-10">
+                    <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 bg-neutral-800">
+                        <Image
+                            src={profile.images?.[0]?.url || "/default-avatar.png"}
+                            alt="profile"
+                            width={56}
+                            height={56}
+                            className="w-full h-full object-cover"
+                        />
                     </div>
                     <div>
-                        <h1 className="text-6xl font-black uppercase tracking-tight text-white leading-none">
+                        <h1 className="text-lg font-semibold text-white leading-tight">
                             {profile.display_name}
                         </h1>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                            <span className="inline-flex items-center gap-1.5 bg-[#1DB954]/10 border border-[#1DB954]/25 rounded-full px-3 py-1 text-[#1DB954] text-xs font-medium tracking-wide">
-                                ♪ {(profile.followers?.total ?? 0).toLocaleString("pt-BR")} seguidores
-                            </span>
+                        <p className="text-xs text-neutral-500 mt-0.5">
+                            {(profile.followers?.total ?? 0).toLocaleString("pt-BR")} seguidores
                             {profile.product && (
-                                <span className="inline-flex items-center bg-white/5 border border-white/10 rounded-full px-3 py-1 text-white/50 text-xs font-medium tracking-wide uppercase">
-                                    {profile.product}
-                                </span>
+                                <span className="ml-2 text-neutral-600">· {profile.product}</span>
                             )}
-                        </div>
+                        </p>
                     </div>
                 </section>
 
-                {/* ── Now Playing ───────────────────────────────────────── */}
+                {/* ── Now Playing ────────────────────────────────────── */}
                 {nowTrack && (
-                    <section className="mb-16">
-                        <SectionHeader title="Tocando Agora" />
-                        <div className="flex items-center gap-5 bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5">
-                            <div className="relative flex-shrink-0">
-                                <div className="rounded-xl overflow-hidden">
-                                    <Image
-                                        src={nowTrack.album?.images?.[1]?.url || "/default-cover.png"}
-                                        width={80}
-                                        height={80}
-                                        alt={nowTrack.name}
-                                        className="block"
-                                    />
-                                </div>
-                                {/* pulsing dot */}
-                                <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[#1DB954] animate-pulse" />
+                    <>
+                        <section className="flex items-center gap-4">
+                            <div className="rounded overflow-hidden flex-shrink-0 bg-neutral-800">
+                                <Image
+                                    src={nowTrack.album?.images?.[2]?.url || "/default-cover.png"}
+                                    width={48}
+                                    height={48}
+                                    alt={nowTrack.name}
+                                    className="block"
+                                />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-base font-bold text-white truncate">{nowTrack.name}</p>
-                                <p className="text-sm text-white/40 truncate mt-0.5">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <Music2 size={11} className="text-[#1DB954] flex-shrink-0" />
+                                    <span className="text-[10px] text-[#1DB954] uppercase tracking-widest font-medium">
+                                        Tocando agora
+                                    </span>
+                                </div>
+                                <p className="text-sm font-medium text-white truncate">{nowTrack.name}</p>
+                                <p className="text-xs text-neutral-500 truncate mt-0.5">
                                     {nowTrack.artists?.map((a: any) => a.name).join(", ")}
                                 </p>
-                                <p className="text-xs text-white/25 truncate mt-0.5">{nowTrack.album?.name}</p>
-                                {/* progress bar */}
-                                <div className="mt-3 h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div className="mt-2 h-px bg-neutral-800 rounded-full overflow-hidden">
                                     <div
-                                        className="h-full bg-[#1DB954] rounded-full transition-all"
+                                        className="h-full bg-neutral-500 rounded-full"
                                         style={{ width: `${progressPct}%` }}
                                     />
                                 </div>
                             </div>
-                            {/* equalizer bars animation */}
-                            <div className="flex-shrink-0 flex items-end gap-0.5 h-8">
-                                {[3, 5, 4, 6, 3].map((h, i) => (
-                                    <div
-                                        key={i}
-                                        className="w-1 bg-[#1DB954] rounded-sm animate-bounce"
-                                        style={{
-                                            height: `${h * 4}px`,
-                                            animationDelay: `${i * 0.12}s`,
-                                            animationDuration: "0.8s",
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </section>
+                        </section>
+                        <Divider />
+                    </>
                 )}
 
-                {/* ── Top Artists ───────────────────────────────────────── */}
-                <section className="mb-16">
-                    <SectionHeader title="Top Artistas" count={artists.items?.length} label="artistas" />
-                    <div className="grid grid-cols-5 gap-5">
+                {/* ── Top Artists ────────────────────────────────────── */}
+                <section>
+                    <SectionHeader title="Top Artistas" />
+                    <div className="grid grid-cols-5 gap-3">
                         {artists.items?.map((artist: any, i: number) => (
                             <div key={artist.id} className="group cursor-pointer">
-                                <div className="relative rounded-xl overflow-hidden aspect-square bg-white/5">
+                                <div className="relative rounded-lg overflow-hidden aspect-square bg-neutral-800">
                                     <Image
                                         src={artist.images?.[0]?.url || "/default-cover.png"}
                                         alt={artist.name}
                                         width={200}
                                         height={200}
-                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#1DB954]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <span className="absolute top-2 left-2.5 text-xl font-black text-white/60 leading-none drop-shadow-lg">
-                                        #{i + 1}
+                                    <span className="absolute bottom-1.5 left-2 text-[10px] text-white/40 group-hover:text-white/60 transition-colors">
+                                        {i + 1}
                                     </span>
                                 </div>
-                                <p className="mt-2.5 text-sm font-medium text-white/80 truncate group-hover:text-white transition-colors">
+                                <p className="mt-2 text-xs text-neutral-400 truncate group-hover:text-neutral-200 transition-colors">
                                     {artist.name}
                                 </p>
                             </div>
@@ -244,45 +204,42 @@ export default function Dashboard() {
                     </div>
                 </section>
 
-                {/* ── Followed Artists ──────────────────────────────────── */}
+                <Divider />
+
+                {/* ── Followed Artists ───────────────────────────────── */}
                 {followed?.artists?.items?.length > 0 && (
-                    <section className="mb-16">
-                        <SectionHeader title="Artistas Seguidos" count={followed.artists.items.length} label="artistas" />
-                        <div className="grid grid-cols-5 gap-5">
-                            {followed.artists.items.map((artist: any) => (
-                                <div key={artist.id} className="group cursor-pointer flex flex-col items-center text-center">
-                                    <div className="relative w-20 h-20 mb-3">
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 to-transparent group-hover:from-[#1DB954]/30 transition-all duration-300" />
-                                        <div className="absolute inset-[2px] rounded-full overflow-hidden bg-white/5">
+                    <>
+                        <section>
+                            <SectionHeader title="Artistas Seguidos" />
+                            <div className="grid grid-cols-5 gap-3">
+                                {followed.artists.items.map((artist: any) => (
+                                    <div key={artist.id} className="group cursor-pointer flex flex-col items-center text-center">
+                                        <div className="w-14 h-14 rounded-full overflow-hidden bg-neutral-800 mb-2">
                                             <Image
                                                 src={artist.images?.[0]?.url || "/default-cover.png"}
                                                 alt={artist.name}
-                                                width={80}
-                                                height={80}
-                                                className="w-full h-full object-cover"
+                                                width={56}
+                                                height={56}
+                                                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                                             />
                                         </div>
+                                        <p className="text-xs text-neutral-400 truncate w-full group-hover:text-neutral-200 transition-colors">
+                                            {artist.name}
+                                        </p>
                                     </div>
-                                    <p className="text-sm font-medium text-white/80 truncate w-full group-hover:text-white transition-colors">
-                                        {artist.name}
-                                    </p>
-                                    <p className="text-[11px] text-white/30 mt-0.5">
-                                        {(artist.followers?.total ?? 0).toLocaleString("pt-BR")} fãs
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+                                ))}
+                            </div>
+                        </section>
+                        <Divider />
+                    </>
                 )}
 
-                {/* ── Top Tracks + Recent — side by side ────────────────── */}
-                <div className="grid grid-cols-2 gap-10 mb-16">
-
-                    {/* Top Tracks */}
+                {/* ── Top Tracks + Recent ────────────────────────────── */}
+                <div className="grid grid-cols-2 gap-10">
                     {topTracks?.items?.length > 0 && (
                         <section>
-                            <SectionHeader title="Top Músicas" count={topTracks.items.length} label="faixas" />
-                            <div className="flex flex-col gap-1">
+                            <SectionHeader title="Top Músicas" />
+                            <div className="divide-y divide-neutral-800/50">
                                 {topTracks.items.map((track: any, i: number) => (
                                     <TrackRow
                                         key={track.id}
@@ -296,10 +253,9 @@ export default function Dashboard() {
                         </section>
                     )}
 
-                    {/* Recent Tracks */}
                     <section>
-                        <SectionHeader title="Últimas Músicas" count={recentTracks.items?.length} label="faixas" />
-                        <div className="flex flex-col gap-1">
+                        <SectionHeader title="Ouvidas Recentemente" />
+                        <div className="divide-y divide-neutral-800/50">
                             {recentTracks.items?.map((item: any, i: number) => (
                                 <TrackRow
                                     key={item.played_at}
@@ -311,43 +267,42 @@ export default function Dashboard() {
                             ))}
                         </div>
                     </section>
-
                 </div>
 
-                {/* ── Playlists ─────────────────────────────────────────── */}
+                {/* ── Playlists ──────────────────────────────────────── */}
                 {playlists?.items?.length > 0 && (
-                    <section>
-                        <SectionHeader title="Playlists" count={playlists.items.length} label="playlists" />
-                        <div className="grid grid-cols-5 gap-5">
-                            {playlists.items.map((pl: any) => (
-                                <div key={pl.id} className="group cursor-pointer">
-                                    <div className="relative rounded-xl overflow-hidden aspect-square bg-white/5">
-                                        <Image
-                                            src={pl.images?.[0]?.url || "/default-cover.png"}
-                                            alt={pl.name}
-                                            width={200}
-                                            height={200}
-                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                            <Play
-                                                size={36}
-                                                className="text-[#1DB954]"
-                                                strokeWidth={1.5}
-                                                fill="#1DB954"
+                    <>
+                        <Divider />
+                        <section>
+                            <SectionHeader title="Playlists" />
+                            <div className="grid grid-cols-5 gap-3">
+                                {playlists.items.map((pl: any) => (
+                                    <div key={pl.id} className="group cursor-pointer">
+                                        <div className="relative rounded-lg overflow-hidden aspect-square bg-neutral-800">
+                                            <Image
+                                                src={pl.images?.[0]?.url || "/default-cover.png"}
+                                                alt={pl.name}
+                                                width={200}
+                                                height={200}
+                                                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
                                             />
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <div className="bg-black/50 rounded-full p-1.5">
+                                                    <Play size={14} className="text-white fill-white" />
+                                                </div>
+                                            </div>
                                         </div>
+                                        <p className="mt-2 text-xs text-neutral-400 truncate group-hover:text-neutral-200 transition-colors">
+                                            {pl.name}
+                                        </p>
+                                        <p className="text-[10px] text-neutral-600 mt-0.5">
+                                            {pl.tracks?.total ?? 0} músicas
+                                        </p>
                                     </div>
-                                    <p className="mt-2.5 text-sm font-medium text-white/80 truncate group-hover:text-white transition-colors">
-                                        {pl.name}
-                                    </p>
-                                    <p className="text-[11px] text-white/30 mt-0.5">
-                                        {pl.tracks?.total ?? 0} músicas
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+                                ))}
+                            </div>
+                        </section>
+                    </>
                 )}
 
             </div>
