@@ -38,8 +38,7 @@ export default function Callback() {
                     data.access_token
                 );
 
-                // window.location.replace("/dashboar");
-                window.location.replace("/create");
+                window.location.replace("/dashboard");
 
             })
             .catch(err => {
