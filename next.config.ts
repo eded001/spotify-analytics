@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: [
+    "http://[::1]:3000",
+  ]
 };
 
 export default nextConfig;
