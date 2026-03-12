@@ -1,23 +1,36 @@
-import Anchor from "@/components/Anchor";
-import Article from "@/components/Article";
-import Paragraph from "@/components/Paragraph";
-import Title from "@/components/Title";
-
 export default function About() {
     return (
-        <Article>
-            <Title>Sobre</Title>
-            <Paragraph>
-                O projeto é inspirado no <Anchor href="https://github.com/eded001/spotify-analytics" target="_blank">Receiptify</Anchor>. O Spotify Analytics tem uma proposta parecida, mas também busca oferecer insights sobre suas atividades musicais. Além de outros projetos parecidos como: <Anchor href="https://www.statsforspotify.com/" target="_blank">Stats for Spotify</Anchor> e <Anchor href="https://trackify.am/" target="_blank">Trackify</Anchor>.
-            </Paragraph>
+        <div className="max-w-3xl mx-auto py-20 px-6">
+            <header className="mb-12 border-b border-zinc-800 pb-8">
+                <h1 className="text-3xl font-semibold text-white tracking-tight">Sobre o Projeto</h1>
+                <p className="text-zinc-500 mt-2 text-xs uppercase tracking-[0.2em]">Documentação Institucional</p>
+            </header>
 
-            <Paragraph>
-                Além disso, o projeto também tem fins estudantis. De maneira sucinta, o projeto serve como estudo de caso para demonstrar a aplicação de conceitos de análise de dados em um contexto real.
-            </Paragraph>
+            <div className="space-y-6">
+                <p className="text-zinc-300 leading-relaxed">
+                    O <span className="text-white font-medium">Spotify Analytics</span> é uma plataforma de visualização de dados musicais projetada para converter métricas de streaming em insights visuais. Inspirado pelo Receiptify, o sistema expande a análise de consumo para oferecer uma interface clara e minimalista.
+                </p>
 
-            <Paragraph>
-                Levando pro âmbito mais técnico da coisa, a aplicação usa React com NextJs. Além disso, a web api do Spotify, é claro.
-            </Paragraph>
-        </Article>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 my-10 py-8 border-y border-zinc-800/50">
+                    <div>
+                        <h3 className="text-[#1DB954] text-[10px] font-bold uppercase tracking-widest mb-4">Referências</h3>
+                        <ul className="flex flex-col gap-2 text-sm">
+                            <li><a href="https://trackify.am/" target="_blank" className="text-zinc-400 hover:text-white transition-colors">Trackify</a></li>
+                            <li><a href="http://spotify.com/stats" target="_blank" className="text-zinc-400 hover:text-white transition-colors">Stats for Spotify</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 className="text-[#1DB954] text-[10px] font-bold uppercase tracking-widest mb-4">Stack Técnica</h3>
+                        <p className="text-zinc-400 text-sm leading-relaxed">
+                            Desenvolvido com React, Next.js e Tailwind CSS, integrando-se diretamente à infraestrutura da Spotify Web API.
+                        </p>
+                    </div>
+                </div>
+
+                <p className="text-zinc-500 text-xs italic leading-relaxed">
+                    Este projeto opera como um estudo de caso técnico para demonstração de conceitos de análise de dados e design de interface em tempo real.
+                </p>
+            </div>
+        </div>
     );
 }
