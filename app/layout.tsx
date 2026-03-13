@@ -19,9 +19,7 @@ export default function RootLayout({
       <html lang="pt-br">
         <body className="antialiased min-h-dvh bg-[#191414] flex flex-col">
           <Header />
-          <main>
-            {children}
-          </main>
+          {children}
           <Footer />
         </body>
       </html>

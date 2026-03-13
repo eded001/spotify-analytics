@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { throwConfetti } from "@/lib/utils"; // Opcional, se tiver
-import { border, toPng } from "html-to-image";
+import { toPng } from "html-to-image";
 
 import {
     getProfile,
