@@ -1,7 +1,7 @@
 "use client";
 
-import Anchor from "@/components/Anchor";
 import List from "@/components/List";
+import Link from "next/link";
 
 export default function Header() {
     return (
@@ -24,41 +24,46 @@ export default function Header() {
                 <List
                     className="flex gap-10 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400"
                     items={[
-                        <Anchor
-                            href="/"
+                        <Link
                             key="Home"
+                            href="/"
+                            target="_blank"
                             className="hover:text-[#1DB954] transition-colors border-b-2 border-transparent hover:border-[#1DB954] pb-1"
                         >
                             Home
-                        </Anchor>,
-                        <Anchor
-                            href="/about"
+                        </Link>,
+                        <Link
                             key="About"
+                            href="/about"
+                            target="_blank"
                             className="hover:text-[#1DB954] transition-colors border-b-2 border-transparent hover:border-[#1DB954] pb-1"
                         >
                             Sobre
-                        </Anchor>,
-                        <Anchor
+                        </Link>,
+                        <Link
+                            key="Privacy"
                             href="/privacy-policy"
-                            key="Privacy Policy"
+                            target="_blank"
                             className="hover:text-[#1DB954] transition-colors border-b-2 border-transparent hover:border-[#1DB954] pb-1"
                         >
                             Privacidade
-                        </Anchor>,
-                        <Anchor
-                            href="/contact"
+                        </Link>,
+                        <Link
                             key="Contact"
+                            href="/contact"
+                            target="_blank"
                             className="hover:text-[#1DB954] transition-colors border-b-2 border-transparent hover:border-[#1DB954] pb-1"
                         >
                             Contato
-                        </Anchor>,
-                        <Anchor
-                            href="/faq"
+                        </Link>,
+                        <Link
                             key="FAQ"
+                            href="/faq"
+                            target="_blank"
                             className="hover:text-[#1DB954] transition-colors border-b-2 border-transparent hover:border-[#1DB954] pb-1"
                         >
                             Dúvidas
-                        </Anchor>
+                        </Link>
                     ]}
                 />
             </nav>
