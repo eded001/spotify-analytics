@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/content/Footer";
 import Header from "@/content/Header";
-import Providers from "./providers/provider";
+import Providers from "@/providers/provider";
 
 export const metadata: Metadata = {
   title: "Spotify Analytics",
